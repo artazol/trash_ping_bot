@@ -166,7 +166,7 @@ def add_group(update, context):
         result = update.message.text_markdown.split()
         if len(result) != 1:
             group_name = result[1]
-            command = command.replace(result[0] + ' ' + result[1], '')
+            if group_name in group[chat_id]
             tag_list = {group_name: []}
             
             if str(chat_id) not in groups:
@@ -192,7 +192,7 @@ def join(update, context):
     chat_id = str(update.effective_chat.id)
     
     if chat_id not in groups:
-            groups[chat_id] = {}
+            groups[chat_id] = {default: []}
     
     if len(result) == 1:
         if 'default' in groups[chat_id]:
