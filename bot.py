@@ -196,7 +196,7 @@ def join(update, context):
     
     if len(result) == 1:
         if 'default' in groups[chat_id]:
-            if str(user) not in groups[str(update.effective_chat.id)]['default']:
+            if user not in groups[str(update.effective_chat.id)]['default']:
                 groups[str(update.effective_chat.id)]['default'].append(str(user))
                 context.bot.send_message(chat_id=update.effective_chat.id,
                                          text='Вы успешно присоединились к группе "default"',
@@ -213,8 +213,8 @@ def join(update, context):
         if len(result) > 2:
             try:
                 context.bot.get_chat(result[2])
-                if result[2] not in groups[chat_id][str(result[1])]:
-                    groups[chat_id][result[1]].append(str(result[2]))
+                if result[2] not in groups[chat_id][result[1]]:
+                    groups[chat_id][result[1]].append(result[2])
                     context.bot.send_message(chat_id=chat_id,
                                              text='Вы успешно добавили пользователя к группе "' + result[1] + '"!',
                                              parse_mode=ParseMode.MARKDOWN)
@@ -227,10 +227,16 @@ def join(update, context):
                                          text='Пользователя с таким ID не существует.',
                                          parse_mode=ParseMode.MARKDOWN)
         else:
-            groups[chat_id][result[1]].append(str(user))
-            context.bot.send_message(chat_id=chat_id,
-                                     text='Вы успешно присоединились к группе "' + result[1] + '"!',
-                                     parse_mode=ParseMode.MARKDOWN)
+            if user not in groups[chat_id][result[1]]:
+                groups[chat_id][result[1]].append(user)
+                context.bot.send_message(chat_id=chat_id,
+                                         text='Вы успешно присоединились к группе "' + result[1] + '"!',
+                                         parse_mode=ParseMode.MARKDOWN)
+            else:
+                context.bot.send_message(chat_id=chat_id,
+                                         text='Вы уже есть в группе.',
+                                         parse_mode=ParseMode.MARKDOWN)
+                
     else:
         context.bot.send_message(chat_id=chat_id,
                                  text="Некорректный ввод: такой группы нет.")
@@ -245,7 +251,7 @@ def leave(update, context):
     
     if len(result) == 1:
         if 'default' in groups[chat_id]:
-            if str(user) in groups[chat_id]['default']:
+            if user in groups[chat_id]['default']:
                 groups[chat_id]['default'].remove(user)
                 context.bot.send_message(chat_id=chat_id,
                                          text='Вы успешно вышли из группы "default"',
