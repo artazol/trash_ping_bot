@@ -96,7 +96,7 @@ def tag(update, context):
                                                     message_id=update.message.message_id)
                     text = '*Вас тегнул пользователь ' + update.message.from_user.first_name + '.*\n'
                     while i < size:
-                        if is_user_exists(context, groups[chat_id]['all'][i]) == 0:
+                        if is_user_exists(groups[chat_id]['all'][i], context) == 0:
                             groups[chat_id]['all'].pop(i)
                             size -= 1
                             continue
@@ -204,10 +204,10 @@ def join(update, context):
     
     if len(result) == 1:
         if 'all' in groups[chat_id]:
-            if user not in groups[chat_id]['default']:
+            if user not in groups[chat_id]['all']:
                 groups[chat_id]['all'].append(user)
                 context.bot.send_message(chat_id=chat_id,
-                                         text='Вы успешно присоединились к группе "default"',
+                                         text='Вы успешно присоединились к группе "all"',
                                          parse_mode=ParseMode.MARKDOWN)
             else:
                 context.bot.send_message(chat_id=chat_id,
@@ -259,10 +259,10 @@ def leave(update, context):
     
     if len(result) == 1:
         if 'all' in groups[chat_id]:
-            if user in groups[chat_id]['default']:
+            if user in groups[chat_id]['all']:
                 groups[chat_id]['all'].remove(user)
                 context.bot.send_message(chat_id=chat_id,
-                                         text='Вы успешно вышли из группы "default"',
+                                         text='Вы успешно вышли из группы "all"',
                                          parse_mode=ParseMode.MARKDOWN)
             else:
                 context.bot.send_message(chat_id=chat_id,
@@ -366,7 +366,7 @@ def show_groups(update, context):
       
           
 def tag_all(update, context):
-#    if update.message.text.startswith('@all'):
+    if update.message.text.startswith('@all'):
 #        class NewFromUser:
 #            first_name = update.message.from_user.first_name
 #            last_name = update.message.from_user.last_name
