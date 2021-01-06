@@ -191,7 +191,7 @@ def add_group(update, context):
 
 def join(update, context):
     global groups
-    user = update.message.from_user.id
+    user = str(update.message.from_user.id)
     result = update.message.text_markdown.split()
     chat_id = str(update.effective_chat.id)
     
@@ -200,13 +200,13 @@ def join(update, context):
     
     if len(result) == 1:
         if 'default' in groups[chat_id]:
-            if user not in groups[str(update.effective_chat.id)]['default']:
-                groups[str(update.effective_chat.id)]['default'].append(str(user))
-                context.bot.send_message(chat_id=update.effective_chat.id,
+            if user not in groups[chat_id]['default']:
+                groups[chat_id]['default'].append(user)
+                context.bot.send_message(chat_id=chat_id,
                                          text='Вы успешно присоединились к группе "default"',
                                          parse_mode=ParseMode.MARKDOWN)
             else:
-                context.bot.send_message(chat_id=update.effective_chat.id,
+                context.bot.send_message(chat_id=chat_id,
                                          text='Вы уже есть в группе.',
                                          parse_mode=ParseMode.MARKDOWN)
         else:
