@@ -66,7 +66,11 @@ def can_delete_messages(update, context):
 
 
 def start(update, context):
-    context.bot.send_message(chat_id=update.effective_chat.id,
+    chat_id = update.effective_chat.id
+    if not groups:
+        if  not in groups:
+            groups[chat_id] = {default: [], all: []}
+    context.bot.send_message(chat_id=chat_id,
                              text="Этот бот позволяет тегать всех участников чата. Чтобы это сделать, отправьте команду /tag all.")
     
     
@@ -167,7 +171,7 @@ def add_group(update, context):
         result = update.message.text_markdown.split()
         if len(result) != 1:
             group_name = result[1]
-            if group_name in group[chat_id]:
+            if group_name in groups[chat_id]:
                 update.message.reply_text('Эта группа уже есть.')
                 tag_list = {group_name: []}
             
@@ -196,7 +200,7 @@ def join(update, context):
     chat_id = str(update.effective_chat.id)
     
     if chat_id not in groups:
-            groups[chat_id] = {default: []}
+            groups[chat_id] = {default: [], all: []}
     
     if len(result) == 1:
         if 'default' in groups[chat_id]:
