@@ -291,7 +291,7 @@ def leave(update, context):
                                          parse_mode=ParseMode.MARKDOWN)
         else:
             if user in groups[chat.id][str(result[1])]:
-        	    groups[chat_id][str(result[1])].remove(user)
+                groups[chat_id][str(result[1])].remove(user)
                 context.bot.send_message(chat_id=chat_id,
                                          text='Вы успешно вышли из группы "' + result[1] + '"!',
                                          parse_mode=ParseMode.MARKDOWN)
