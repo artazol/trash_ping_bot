@@ -16,7 +16,7 @@ dispatcher = updater.dispatcher
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
 
-groups = {}
+groups = {all: []}
 
 
 def load_db():
