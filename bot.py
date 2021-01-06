@@ -66,9 +66,9 @@ def can_delete_messages(update, context):
 
 
 def start(update, context):
-    chat_id = update.effective_chat.id
+    chat_id = str(update.effective_chat.id)
     if not groups:
-        if not in groups:
+        if chat_id not in groups:
             groups[chat_id] = {default: [], all: []}
     context.bot.send_message(chat_id=chat_id,
                              text="Этот бот позволяет тегать всех участников чата. Чтобы это сделать, отправьте команду /tag all.")
