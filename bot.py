@@ -277,7 +277,7 @@ def leave(update, context):
             try:
                 context.bot.get_chat(result[2])
                 if result[2] in groups[chat_id][result[1]]:
-                    groups[chat_id][result[1]].append(str(result[2]))
+                    groups[chat_id][str(result[1])].remove(str(result[2]))
                     context.bot.send_message(chat_id=chat_id,
                                              text='Вы успешно удалили пользователя из группы "' + result[1] + '"!',
                                              parse_mode=ParseMode.MARKDOWN)
@@ -290,13 +290,14 @@ def leave(update, context):
                                          text='Пользователя с таким ID не существует.',
                                          parse_mode=ParseMode.MARKDOWN)
         else:
-            groups[chat_id][result[1]].remove(user)
+            groups[chat_id][str(result[1])].remove(user)
             context.bot.send_message(chat_id=chat_id,
                                      text='Вы успешно вышли из группы "' + result[1] + '"!',
                                      parse_mode=ParseMode.MARKDOWN)
     else:
         context.bot.send_message(chat_id=chat_id,
                                  text="Некорректный ввод: такой группы нет.")
+    save_db()                 
     
 
 def remove_group(update, context):
