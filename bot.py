@@ -166,6 +166,9 @@ def add_group(update, context):
     chat_id = str(update.effective_chat.id)
     status = context.bot.get_chat_member(chat_id, user).status
     
+    if chat_id in groups:
+        groups[chat_id] = []
+    
     if status == "creator" or status == "administrator":
         command = update.message.text_markdown
         result = update.message.text_markdown.split()
