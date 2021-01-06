@@ -161,22 +161,26 @@ def add_group(update, context):
     user = update.message.from_user.id
     chat_id = str(update.effective_chat.id)
     status = context.bot.get_chat_member(chat_id, user).status
+    
     if status == "creator" or status == "administrator":
         command = update.message.text_markdown
         result = update.message.text_markdown.split()
         if len(result) != 1:
             group_name = result[1]
-            if group_name in group[chat_id]
-            tag_list = {group_name: []}
+            if group_name in group[chat_id]:
+                update.message.reply_text('Эта группа уже есть.')
+                tag_list = {group_name: []}
             
-            if str(chat_id) not in groups:
+            elif str(chat_id) not in groups:
                 groups[chat_id] = tag_list
+                update.message.reply_text('Готово! Группа под названием "' + group_name + '" создана.')
 
             else:
                 groups[chat_id][group_name] = []
+                update.message.reply_text('Готово! Группа под названием "' + group_name + '" создана.')
                 
             save_db()
-            update.message.reply_text('Готово! Группа под названием "' + group_name + '" создана.')
+            
             print(groups)
         else:
             context.bot.send_message(chat_id=chat_id,
