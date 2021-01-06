@@ -69,7 +69,7 @@ def start(update, context):
     chat_id = str(update.effective_chat.id)
     if not groups:
         if chat_id not in groups:
-            groups[chat_id] = {default: [], all: []}
+            groups[chat_id] = {all: []}
     context.bot.send_message(chat_id=chat_id,
                              text="Этот бот позволяет тегать всех участников чата. Чтобы это сделать, отправьте команду /tag all.")
     
@@ -80,15 +80,15 @@ def tag(update, context):
     
     if chat_id in groups:
         if len(result) == 1:
-            if 'default' in groups[chat_id]:
-                if not groups[chat_id]['default']:
+            if 'all' in groups[chat_id]:
+                if not groups[chat_id]['all']:
                     context.bot.send_message(chat_id=chat_id,
                                              text="В данный момент, группа пуста. Присоединитесь или добавьте в неё пользователей.",
                                              parse_mode=ParseMode.MARKDOWN)
                     
                 else:
                     text = ''
-                    size = len(groups[chat_id]['default'])
+                    size = len(groups[chat_id]['all'])
                     i = 0
                     print(context.bot.get_chat_member(chat_id, config.BOT_ID))
                     if context.bot.get_chat_member(chat_id, config.BOT_ID).can_delete_messages is True:
@@ -96,11 +96,11 @@ def tag(update, context):
                                                     message_id=update.message.message_id)
                     text = '*Вас тегнул пользователь ' + update.message.from_user.first_name + '.*\n'
                     while i < size:
-                        if is_user_exists(context, groups[chat_id]['default'][i]) == 0:
-                            groups[chat_id]['default'].pop(i)
+                        if is_user_exists(context, groups[chat_id]['all'][i]) == 0:
+                            groups[chat_id]['all'].pop(i)
                             size -= 1
                             continue
-                        user = context.bot.get_chat(groups[chat_id]['default'][i])
+                        user = context.bot.get_chat(groups[chat_id]['all'][i])
                         
                         if user.username is not None:
                             text += '@' + user.username + ' '
@@ -115,7 +115,7 @@ def tag(update, context):
                     
             else:
                 context.bot.send_message(chat_id=chat_id,
-                                         text='Группы "default" ещё нет, но вы можете создать её. Эта группа будет тегаться по команде "/tag" без аргументов.',
+                                         text='Группы "all" ещё нет, но вы можете создать её. Эта группа будет тегаться по команде "/tag" без аргументов.',
                                          parse_mode=ParseMode.MARKDOWN)
                 
         elif result[1] in groups[chat_id]:
@@ -175,7 +175,7 @@ def add_group(update, context):
                 update.message.reply_text('Эта группа уже есть.')
                 tag_list = {group_name: []}
             
-            elif str(chat_id) not in groups:
+            elif chat_id not in groups:
                 groups[chat_id] = tag_list
                 update.message.reply_text('Готово! Группа под названием "' + group_name + '" создана.')
 
@@ -200,12 +200,12 @@ def join(update, context):
     chat_id = str(update.effective_chat.id)
     
     if chat_id not in groups:
-            groups[chat_id] = {default: [], all: []}
+            groups[chat_id] = {all: []}
     
     if len(result) == 1:
-        if 'default' in groups[chat_id]:
+        if 'all' in groups[chat_id]:
             if user not in groups[chat_id]['default']:
-                groups[chat_id]['default'].append(user)
+                groups[chat_id]['all'].append(user)
                 context.bot.send_message(chat_id=chat_id,
                                          text='Вы успешно присоединились к группе "default"',
                                          parse_mode=ParseMode.MARKDOWN)
@@ -215,7 +215,7 @@ def join(update, context):
                                          parse_mode=ParseMode.MARKDOWN)
         else:
             context.bot.send_message(chat_id=update.effective_chat.id,
-                                     text='Группы "default" ещё нет, но вы можете создать её. Эта группа будет тегаться по команде "/tag" без аргументов.',
+                                     text='Группы "all" ещё нет, но вы можете создать её. Эта группа будет тегаться по команде "/tag" без аргументов.',
                                      parse_mode=ParseMode.MARKDOWN)
     elif result[1] in groups[chat_id]:
         if len(result) > 2:
@@ -258,9 +258,9 @@ def leave(update, context):
     result = update.message.text_markdown.split()
     
     if len(result) == 1:
-        if 'default' in groups[chat_id]:
+        if 'all' in groups[chat_id]:
             if user in groups[chat_id]['default']:
-                groups[chat_id]['default'].remove(user)
+                groups[chat_id]['all'].remove(user)
                 context.bot.send_message(chat_id=chat_id,
                                          text='Вы успешно вышли из группы "default"',
                                          parse_mode=ParseMode.MARKDOWN)
@@ -270,7 +270,7 @@ def leave(update, context):
                                          parse_mode=ParseMode.MARKDOWN)
         else:
             context.bot.send_message(chat_id=update.effective_chat.id,
-                                     text='Группы "default" ещё нет, но вы можете создать её. Эта группа будет тегаться по команде "/tag" без аргументов.',
+                                     text='Группы "all" ещё нет, но вы можете создать её. Эта группа будет тегаться по команде "/tag" без аргументов.',
                                      parse_mode=ParseMode.MARKDOWN)
     elif result[1] in groups[chat_id]:
         if len(result) > 2:
@@ -366,22 +366,23 @@ def show_groups(update, context):
       
           
 def tag_all(update, context):
-    if update.message.text.startswith('@all'):
-        class NewFromUser:
-            first_name = update.message.from_user.first_name
-            last_name = update.message.from_user.last_name
-            
-        class NewMessage:
-            text_markdown = '/tag all'
-            message_id = update.message.message_id
-            from_user = NewFromUser()
-            
-        class NewUpdate:
-            effective_chat = update.effective_chat
-            message = NewMessage()
-            
-        new_update = NewUpdate()
-        tag(new_update, context)
+#    if update.message.text.startswith('@all'):
+#        class NewFromUser:
+#            first_name = update.message.from_user.first_name
+#            last_name = update.message.from_user.last_name
+#            
+#        class NewMessage:
+#            text_markdown = '/tag all'
+#            message_id = update.message.message_id
+#            from_user = NewFromUser()
+#            
+#        class NewUpdate:
+#            effective_chat = update.effective_chat
+#            message = NewMessage()
+#            
+#        new_update = NewUpdate()
+#        tag(new_update, context)
+        tag(update, context)
     
 
 def main():
