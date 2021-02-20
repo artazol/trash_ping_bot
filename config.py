@@ -1,2 +1,4 @@
-TOKEN = '1547518342:AAH_ykeVnHb0_BFgEbLX_jJEympURidKxUc'
-BOT_ID = '1547518342'
+# -*- coding: utf-8 -*-
+
+TOKEN = "1643328825:AAGt59OjmpzNHurF4tUgUiwGWn9N1E5rw_o"
+CREATOR = "1258672903"

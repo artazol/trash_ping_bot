@@ -1,8 +1,121 @@
 {
+    "-1001108614831": {
+        "groups": {
+            "all": {
+                "users": [
+                    "335721304",
+                    "146888266",
+                    "1258672903"
+                ],
+                "admin_only": false,
+                "invisible_tag": true,
+                "enable_whitelist": false,
+                "whitelist": []
+            },
+            "ng": {
+                "users": [
+                    "1258672903",
+                    "335721304",
+                    "146888266",
+                    "378617324"
+                ],
+                "admin_only": false,
+                "invisible_tag": true,
+                "enable_whitelist": false,
+                "whitelist": []
+            },
+            "/ngforce": {
+                "users": [],
+                "admin_only": false,
+                "invisible_tag": false,
+                "enable_whitelist": false,
+                "whitelist": []
+            }
+        },
+        "lang": "ru",
+        "create_admin": false,
+        "blacklist": []
+    },
     "-1001269122946": {
-        "all": [
-            "335721304",
-            "1258672903"
-        ]
+        "groups": {
+            "all": {
+                "users": [
+                    "556288143",
+                    "335721304"
+                ],
+                "admin_only": true,
+                "invisible_tag": false,
+                "enable_whitelist": false,
+                "whitelist": []
+            }
+        },
+        "lang": "ru",
+        "create_admin": true,
+        "blacklist": []
+    },
+    "-1001458561052": {
+        "groups": {
+            "all": {
+                "users": [
+                    "1258672903",
+                    "556288143",
+                    "408573635",
+                    "457015646",
+                    "747242449",
+                    "684335378",
+                    "464560477",
+                    "954205027",
+                    "611076527",
+                    "733944417",
+                    "808901372",
+                    "270003369",
+                    "713865648",
+                    "860160794",
+                    "593720895",
+                    "483795746",
+                    "661280193",
+                    "723442583",
+                    "606922390",
+                    "986127730",
+                    "642046410",
+                    "590643976",
+                    "674537710",
+                    "640493256"
+                ],
+                "admin_only": false,
+                "invisible_tag": true,
+                "enable_whitelist": true,
+                "whitelist": [
+                    "408573635",
+                    "606922390"
+                ]
+            }
+        },
+        "lang": "ru",
+        "create_admin": true,
+        "blacklist": []
+    },
+    "1258672903": {
+        "lang": "en"
+    },
+    "-1001391782619": {
+        "groups": {
+            "all": {
+                "users": [
+                    "499518571",
+                    "518929841"
+                ],
+                "admin_only": false,
+                "invisible_tag": false,
+                "enable_whitelist": false,
+                "whitelist": []
+            }
+        },
+        "lang": "ru",
+        "create_admin": false,
+        "blacklist": []
+    },
+    "674537710": {
+        "lang": "ru"
     }
 }
